@@ -1,56 +1,39 @@
 namespace MovieManager.Domain.Common.Models
 {
-    public abstract class Entity : IEquatable<Entity>
+    public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : ValueObject
     {
-        public Guid Id { get; set; }
-        protected Entity(Guid id)
+        public TId Id { get; protected set; }
+        protected Entity(TId id)
         {
             Id = id;
+        }
 
-        }
-        public static bool operator ==(Entity? first, Entity? second)
-        {
-            return first is not null && second is not null && first.Equals(second);
-        }
-        public static bool operator !=(Entity? first, Entity? second)
-        {
-            return !(first == second);
-        }
+
         public override bool Equals(object? obj)
         {
-            if (obj is null)
-            {
-                return false;
-            }
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-            if (obj is not Entity entity)
-            {
-                return false;
-            }
-
-            return entity.Id == Id;
-
+            return obj is Entity<TId> entity && Id.Equals(entity.Id);
         }
+
+        public bool Equals(Entity<TId>? other)
+        {
+            return Equals((object?)other);
+        }
+
+        public static bool operator ==(Entity<TId> left, Entity<TId> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Entity<TId> left, Entity<TId> right)
+        {
+            return !Equals(left, right);
+        }
+
         public override int GetHashCode()
         {
-            return Id.GetHashCode() * 41;
+            return Id.GetHashCode();
         }
 
-        public bool Equals(Entity? other)
-        {
-            if (other is null)
-            {
-                return false;
-            }
-            if (other.GetType() != GetType())
-            {
-                return false;
-            }
-            return other.Id == Id;
-        }
         protected Entity()
         {
         }

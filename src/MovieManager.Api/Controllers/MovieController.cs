@@ -6,7 +6,10 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieManager.Application.Movies.Commands.Create;
+using MovieManager.Application.Movies.Commands.Delete;
 using MovieManager.Application.Movies.Commands.Queries.ListMovies;
+using MovieManager.Application.Movies.Commands.Update;
+using MovieManager.Contracts.Movies;
 
 namespace MovieManager.Api.Controllers
 {
@@ -15,10 +18,12 @@ namespace MovieManager.Api.Controllers
     public class MovieController : ControllerBase
     {
         private readonly ISender _mediator;
+        private readonly IMapper _mapper;
 
-        public MovieController(ISender mediator)
+        public MovieController(ISender mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllMovies()
@@ -28,9 +33,23 @@ namespace MovieManager.Api.Controllers
             return Ok(movies);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateMovie(string name, string description)
+        public async Task<IActionResult> CreateMovie([FromBody] CreateUpdateMovieRequest createMovie)
         {
-            var command = new CreateMovieCommand(name, description);
+            var command = _mapper.Map<CreateMovieCommand>(createMovie);
+            await _mediator.Send(command);
+            return Ok();
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateMovie([FromBody] CreateUpdateMovieRequest updateMovie)
+        {
+            var command = _mapper.Map<UpdateMovieCommand>(updateMovie);
+            await _mediator.Send(command);
+            return Ok("");
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMovie(string id)
+        {
+            var command = new DeleteMovieCommand(Guid.Parse(id));
             await _mediator.Send(command);
             return Ok("");
         }

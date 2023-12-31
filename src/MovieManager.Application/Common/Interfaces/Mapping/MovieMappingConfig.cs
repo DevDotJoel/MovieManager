@@ -12,7 +12,7 @@ namespace MovieManager.Application.Common.Interfaces.Mapping
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Movie, MovieModel>();
+            config.NewConfig<Movie, MovieModel>().Map(dest => dest.Id, src => src.Id.Value.ToString());
         }
     }
 }

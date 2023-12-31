@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MovieManager.Application.Common.Interfaces.Persistence;
 using MovieManager.Domain.Aggregates.MovieAggregate;
+using MovieManager.Domain.Aggregates.MovieAggregate.ValueObjects;
 
 namespace MovieManager.Infrastructure.Persistence.Repositories
 {
@@ -23,9 +24,10 @@ namespace MovieManager.Infrastructure.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(Movie entity)
+        public async Task DeleteAsync(Movie entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IReadOnlyList<Movie>> GetAllAsync()
@@ -33,7 +35,7 @@ namespace MovieManager.Infrastructure.Persistence.Repositories
             return await _dbContext.Movies.ToListAsync();
         }
 
-        public async Task<Movie> GetByIdAsync(Guid id)
+        public async Task<Movie> GetByIdAsync(MovieId id)
         {
             return await _dbContext.Movies.Where(m => m.Id == id).FirstOrDefaultAsync();
         }
