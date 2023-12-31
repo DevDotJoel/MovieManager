@@ -7,9 +7,9 @@ using MovieManager.Domain.Aggregates.MovieAggregate;
 
 namespace MovieManager.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class MovieManagerDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public MovieManagerDbContext(DbContextOptions<MovieManagerDbContext> options) : base(options)
         {
 
         }
@@ -17,7 +17,7 @@ namespace MovieManager.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MovieManagerDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
         }
     }

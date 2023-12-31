@@ -1,3 +1,4 @@
+using MovieManager.Application;
 using MovieManager.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -5,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 var app = builder.Build();

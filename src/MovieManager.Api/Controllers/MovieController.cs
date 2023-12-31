@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MovieManager.Application.Movies.Commands.Create;
+using MovieManager.Application.Movies.Commands.Queries.ListMovies;
 
 namespace MovieManager.Api.Controllers
 {
@@ -10,14 +14,25 @@ namespace MovieManager.Api.Controllers
     [Route("api/[controller]")]
     public class MovieController : ControllerBase
     {
-        public MovieController()
-        {
+        private readonly ISender _mediator;
 
+        public MovieController(ISender mediator)
+        {
+            _mediator = mediator;
         }
         [HttpGet]
-        public IActionResult GetName()
+        public async Task<IActionResult> GetAllMovies()
         {
-            return Ok("Hello World");
+            var command = new ListMoviesQuery();
+            var movies = await _mediator.Send(command);
+            return Ok(movies);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateMovie(string name, string description)
+        {
+            var command = new CreateMovieCommand(name, description);
+            await _mediator.Send(command);
+            return Ok("");
         }
     }
 }
