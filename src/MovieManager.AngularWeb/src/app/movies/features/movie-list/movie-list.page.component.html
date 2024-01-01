@@ -1,1 +1,12 @@
-<p>movie-list.page works!</p>
+<div class="row">
+  <div class="col">
+    <h1>Movies</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <ng-container *ngIf=" movies$ |async as movies">
+       {{movies.length}}
+    </ng-container>
+  </div>
+</div>

@@ -10,7 +10,7 @@ const routes: Routes = [
           [
 
             {
-              path:'movies',loadChildren:()=> import('./movies/features/movie-routes/movie-shell-routing.module').then(m=>m.MovieShellRoutingModule),
+              path:'movies',loadChildren:()=> import('./movies/features/movie-shell/movie-shell-routing.module').then(m=>m.MovieShellRoutingModule),
             },
             {
               path:'home',loadComponent:()=> import('./home/home.page.component').then(m=>m.HomePageComponent),

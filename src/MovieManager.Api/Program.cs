@@ -9,6 +9,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddCors(o => o.AddPolicy("frontend", builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("frontend");
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
