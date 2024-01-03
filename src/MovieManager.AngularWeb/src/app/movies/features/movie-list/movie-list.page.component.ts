@@ -25,7 +25,6 @@ export class MovieListPageComponent  {
   }
 
   filter() {
-    this.movies$ =this.movies$.pipe(
-    map(data => data.filter(m => m.name===this.  searchTerm || m.description===this.  searchTerm )),);
+
 }
 }
