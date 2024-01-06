@@ -1,0 +1,1 @@
+export * from './routes/movie-list/movie-list';
