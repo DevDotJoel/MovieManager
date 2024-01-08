@@ -1,7 +1,7 @@
 import React from "react";
-import { useMovies } from "../../api/getMovies";
+import { useMovies } from "../api/getMovies";
 
-export const MovieList = () => {
+export const MoviesPage = () => {
   const moviesQuery = useMovies();
   if (moviesQuery.isLoading) return <>loading...</>;
   if (!moviesQuery.data) return null;

@@ -1,1 +1,3 @@
-export * from './routes/movie-list/movie-list';
+
+export * from './types';
+export * from './routes';
